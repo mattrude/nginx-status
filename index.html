@@ -1,0 +1,19 @@
+<head>
+<title>Nginx Server Status</title>
+<meta http-equiv="refresh" content="60">
+<link rel="stylesheet" type="text/css" href="style.css"/>
+</head>
+<body>
+<div id="content">
+	<div id="title"><h1>Nginx Server Status <i>&dash; kirby.mattrude.com</i></h1></div>
+	<h2>Legend</h2>
+	<pre>
+requests - Number of requests handled by nginx
+reading  - nginx reads request header
+writing  - nginx reads request body, processes request, or writes response to a client
+waiting  - keep-alive connections, actually it is active - (reading + writing)</pre>
+	<h2>Current Status</h2>
+	<p><a href="requests.html"><img src="/images/requests-day.png"></a></p>
+	<p><a href="connections.html"><img src="/images/connections-day.png"></a></p>
+</div>
+</body>
