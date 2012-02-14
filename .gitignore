@@ -1,2 +1,2 @@
-rrd/
-images/
+rrd/*.rrd
+images/*.png
