@@ -3,7 +3,7 @@ use RRDs;
 use LWP::UserAgent;
 
 # define location of rrdtool databases
-my $rrd = '/var/www/status.mattrude.com/rrd';
+my $rrd = '/var/www/status.mattrude.com';
 # define location of images
 my $img = '/var/www/status.mattrude.com/images';
 # define your nginx stats URL
@@ -28,18 +28,19 @@ foreach (split(/\n/, $response->content)) {
   $requests = $3 if (/^\s+(\d+)\s+(\d+)\s+(\d+)/);
 }
 
-print "RQ:$requests; TT:$total; RD:$reading; WR:$writing; WA:$waiting\n";
+#print "RQ:$requests; TT:$total; RD:$reading; WR:$writing; WA:$waiting\n";
 
 # if rrdtool database doesn't exist, create it
 if (! -e "$rrd/nginx.rrd") {
   RRDs::create "$rrd/nginx.rrd",
         "-s 60",
-	"DS:requests:COUNTER:120:0:100000000",
+	"DS:requests:COUNTER:120:0:60000",
 	"DS:total:ABSOLUTE:120:0:60000",
 	"DS:reading:ABSOLUTE:120:0:60000",
 	"DS:writing:ABSOLUTE:120:0:60000",
 	"DS:waiting:ABSOLUTE:120:0:60000",
-	"RRA:AVERAGE:0.5:1:2880",
+	"RRA:AVERAGE:0.5:1:1440",
+	"RRA:AVERAGE:0.5:5:288",
 	"RRA:AVERAGE:0.5:30:672",
 	"RRA:AVERAGE:0.5:120:732",
 	"RRA:AVERAGE:0.5:720:1460";
@@ -51,6 +52,7 @@ RRDs::update "$rrd/nginx.rrd",
   "N:$requests:$total:$reading:$writing:$waiting";
 
 # Generate graphs
+CreateGraphs("hour");
 CreateGraphs("day");
 CreateGraphs("week");
 CreateGraphs("month");
@@ -62,7 +64,7 @@ sub CreateGraphs($){
   
   RRDs::graph "$img/requests-$period.png",
 		"-s -1$period",
-		"-t Requests on nginx server for $period",
+		"-t HTTP requests on nginx server kirby.mattrude.com for the last $period",
 		"--lazy",
 		"-h", "150", "-w", "700",
 		"-l 0",
@@ -82,7 +84,7 @@ sub CreateGraphs($){
 
   RRDs::graph "$img/connections-$period.png",
 		"-s -1$period",
-		"-t Requests on nginx server for $period",
+		"-t HTTP requests on nginx server kirby.mattrude.com for the last $period",
 		"--lazy",
 		"-h", "150", "-w", "700",
 		"-l 0",
@@ -93,7 +95,7 @@ sub CreateGraphs($){
 		"DEF:writing=$rrd/nginx.rrd:writing:AVERAGE",
 		"DEF:waiting=$rrd/nginx.rrd:waiting:AVERAGE",
 
-		"LINE2:total#22FF22:Total",
+		"LINE2:total#336600:Total",
 		"GPRINT:total:LAST:   Current\\: %5.1lf %S",
 		"GPRINT:total:MIN:  Min\\: %5.1lf %S",
 		"GPRINT:total:AVERAGE: Avg\\: %5.1lf %S",
