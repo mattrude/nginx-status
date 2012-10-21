@@ -6,10 +6,16 @@
 </head>
 <body>
 <div id="content">
-	<p><img src="/images/connections-hour.png" height="223" width="797" ></p>
-	<p><img src="/images/connections-day.png" height="223" width="797" ></p>
-	<p><img src="/images/connections-week.png" height="223" width="797" ></p>
-	<p><img src="/images/connections-month.png" height="223" width="797" ></p>
-	<p><img src="/images/connections-year.png" height="223" width="797" ></p>
+	<div id="title"><h1>Nginx Server Status <i>&dash; Connections on odin.mattrude.com</i></h1></div>
+	<p> <a href="/">status.mattrude.com</a> / <strong>connections</strong> / </p>
+	<pre>total    - All of the below added up
+reading  - nginx reads request header
+writing  - nginx reads request body, processes request, or writes response to a client
+waiting  - keep-alive connections, actually it is active - (reading + writing)</pre>
+	<p><img src="/images/connections-hour.png" height="265" width="797" ></p>
+	<p><img src="/images/connections-day.png" height="265" width="797" ></p>
+	<p><img src="/images/connections-week.png" height="265" width="797" ></p>
+	<p><img src="/images/connections-month.png" height="265" width="797" ></p>
+	<p><img src="/images/connections-year.png" height="265" width="797" ></p>
 </div>
 </body>
