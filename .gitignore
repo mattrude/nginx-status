@@ -1,2 +1,3 @@
-nginx.rrd
 images/*.png
+rrd/*.rrd
+rrd/nginx.sqlite
